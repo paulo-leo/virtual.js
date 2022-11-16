@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <script src="virtual.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<title key="title"></title>
+</head>
+    <body>
+      
+   <div class="container">
+    <div id="app" class="content row">
+
+
+      <nav class="navbar navbar-expand-lg bg-light">
+        <div class="container-fluid">
+          <a class="navbar-brand">${title}</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div class="navbar-nav">
+              <a class="nav-link" href="#">Home</a>
+              <a class="nav-link" href="#sobre">Sobre</a>
+              <a class="nav-link" href="#contato">Contato</a>
+            </div>
+          </div>
+        </div>
+      </nav>
+
+
+     <div class="col-6">
+
+        <h3 show="!this.loading">Esse é um show</h3>
+
+        <h3 if="!false">Esse é um if</h3>
+
+        <ul for="r in results" class="list-group">
+           <li class="list-group-item">
+              <h5>${r.name}</h5>
+              <a href="${r.url}" target="_blank">Link</a>
+           </li>
+        </ul>
+     </div>
+     
+ 
+     <div class="col-6">
+
+        <hello></hello>
+
+          <div class="btn-group" role="group">
+            <button class="${btn}" onclick="previous()">Anterior</button>
+           <button class="${btn}" onclick="next()">Próxima</button>
+          </div>
+         
+
+    
+
+           <div class="ul bg-danger" for="f in clientes">
+               <p> ${f.name} | ${f.phone} | ${f.price}</p>
+           </div>
+
+           
+
+           <input model="name" key="name" type="text">
+           <h1>${name}</h1>
+         
+     </div>
+    
+
+  
+  </div>
+</div>
+  </body>
+  <script>
+
+
+  
+
+   $v.fill({
+      loading:false,
+      results:[],
+      btn:"btn btn-outline-primary",
+      url:"https://pokeapi.co/api/v2/pokemon?limit=10&offset=0",
+      next:"",
+      previous:"",
+      count:0,
+      hello:"Inicie a inteção com o APP",
+      classChange:"",
+      name:"Leonardo",
+      clientes:[
+        {name:'Paulo','phone':'5645454554',price:10},
+        {name:'Rafael','phone':'5645fv54554',price:170},
+        {name:'Jessinae','phone':'56v54554',price:5}
+      ]
+    });
+
+    
+
+    $v.watch('count',(k) => {
+
+         console.log($v.get('count'));
+
+    });
+
+
+   $v.route('/',()=>{
+
+     $v.set('count',$v.get('count') + 100);
+     $v.set('title','Página inicial');
+     $v.set('name','Maria de fátima');
+
+
+   });
+
+   $v.route('sobre',(url)=>{
+       $v.set('title','Sobre nós');
+       $v.set('name','Paulo Gustavo');
+   });
+
+   $v.route('contato',(url)=>{
+       $v.set('title','Contato');
+   });
+
+   $v.route('*',(url)=>{
+    $v.set('title','Rota não localizada');
+   });
+
+    $v.component('hello',(p)=>{
+         return  `
+         <div class="card">
+            <div class="card-header">
+              ${p.hello}
+          </div>
+         <div class="card-body">
+         <h3 class="card-title">${p.count} registros.</h3>
+         <div class="bg-success" for="p in clientes">
+               <p> ${p.name} | ${p.phone}</p>
+           </div>
+         </div>
+      </div>
+         `;
+    });
+
+
+    function load(url)
+    {
+      $v.set('loading',true);           
+      axios.get(url)
+     .then(function (response) {
+     
+      $v.set('count',response.data.count);
+      $v.set('next',response.data.next);
+      $v.set('previous',response.data.previous)
+
+      $v.set('results',response.data.results);
+      $v.set('loading',false); 
+     })
+    }
+
+    function next()
+    {
+      let obj = $v.obj();
+      $v.update({
+        hello:"Você clicou para ir para próxima página."
+      });
+      load(obj.next);
+      
+
+    }
+
+    function previous()
+    {
+      let obj = $v.obj();
+      $v.update({
+        hello:"Você clicou para ir para página anterior."
+      });
+      load(obj.previous);
+    }
+
+    load($v.get('url'));
+  
+   
+
+    window.addEventListener("load", function(event) 
+    {
+      
+    });
+</script>
+</html>
