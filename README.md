@@ -68,7 +68,7 @@ Mostra o conteúdo se o teste for verdadeiro.
 Muda o valor ou texto da tag de acordo com o valor do estado fornecido
     
 ##  model
-Faz um vinculo de direto ao estado fornecido
+Faz um vinculo direto ao estado fornecido
 
     <input  model="name"  key="name"  type="text">
     <h1>${name}</h1>
