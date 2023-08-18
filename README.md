@@ -1,3 +1,5 @@
+#O Virtual.js atua como um tipo de transpilador, viabilizando uma abordagem reativa para todas as variáveis JavaScript no contexto observável. É importante ressaltar que o Virtual.js ainda está em estágio experimental, e atualmente requer um consumo de memória considerável ao ser utilizado. Recomendamos, portanto, que seu uso não seja aplicado em cenários de desenvolvimento, mas sim restrito a propósitos estritamente didáticos. Sinta-se à vontade para implementar aprimoramentos no código conforme necessário.
+
 ## void $v.set(string name, string value)
 Cria ou atualiza o valor de um estado.
 
